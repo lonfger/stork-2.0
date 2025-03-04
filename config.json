@@ -5,9 +5,9 @@
     "userPoolId": "ap-northeast-1_M22I44OpC"
   },
   "stork": {
-    "intervalSeconds": 5
+    "intervalSeconds": 30
   },
   "threads": {
-    "maxWorkers": 1
+    "maxWorkers": 10
   }
 }
