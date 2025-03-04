@@ -27,14 +27,12 @@ function loadConfig() {
           region: 'ap-northeast-1',
           clientId: '5msns4n49hmg3dftp2tp1t2iuh',
           userPoolId: 'ap-northeast-1_M22I44OpC',
-          username: '',  // To be filled by user
-          password: ''   // To be filled by user
-        },
+          },
         stork: {
-          intervalSeconds: 10
+          intervalSeconds: 30
         },
         threads: {
-          maxWorkers: 10
+          maxWorkers: 1
         }
       };
       fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), 'utf8');
@@ -106,6 +104,13 @@ function log(message, type = 'INFO') {
 
 function loadProxies() {
   try {
+    const rotate = arr => {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+        return arr;
+      };
     if (!fs.existsSync(config.threads.proxyFile)) {
       log(`Proxy file not found at ${config.threads.proxyFile}, creating empty file`, 'WARN');
       fs.writeFileSync(config.threads.proxyFile, '', 'utf8');
@@ -116,8 +121,10 @@ function loadProxies() {
       .split('\n')
       .map(line => line.trim())
       .filter(line => line && !line.startsWith('#'));
+    const rotatedProxy = rotate(proxies);
     log(`Loaded ${proxies.length} proxies from ${config.threads.proxyFile}`);
-    return proxies;
+    log(`trying run with ${rotatedProxy[0]}`);
+    return rotatedProxy;
   } catch (error) {
     log(`Error loading proxies: ${error.message}`, 'ERROR');
     return [];
@@ -395,7 +402,7 @@ if (!isMainThread) {
       }
 
       const signedPrices = await getSignedPrices(tokens);
-      const proxies = loadProxies();
+      const proxies = await loadProxies();
 
       if (!signedPrices || signedPrices.length === 0) {
         log('No data to validate');
@@ -445,7 +452,7 @@ if (!isMainThread) {
 
       displayStats(updatedUserData);
       log(`--------- VALIDATION SUMMARY ---------`);
-      log(`Total data processed: ${actualValidIncrease + actualInvalidIncrease}`);
+      log(`Total data processed: ${newValidCount}`);
       log(`Successful: ${actualValidIncrease}`);
       log(`Failed: ${actualInvalidIncrease}`);
       log('--------- COMPLETE ---------');
