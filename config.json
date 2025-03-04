@@ -8,6 +8,6 @@
     "intervalSeconds": 30
   },
   "threads": {
-    "maxWorkers": 10
+    "maxWorkers": 1
   }
 }
