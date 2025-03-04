@@ -27,14 +27,12 @@ function loadConfig() {
           region: 'ap-northeast-1',
           clientId: '5msns4n49hmg3dftp2tp1t2iuh',
           userPoolId: 'ap-northeast-1_M22I44OpC',
-          username: '',  // To be filled by user
-          password: ''   // To be filled by user
-        },
+          },
         stork: {
-          intervalSeconds: 10
+          intervalSeconds: 30
         },
         threads: {
-          maxWorkers: 10
+          maxWorkers: 1
         }
       };
       fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), 'utf8');
