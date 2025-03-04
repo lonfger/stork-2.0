@@ -39,16 +39,11 @@ npm install
 
 ## Configuration
 
-### Easy Setup with config.json
+### Easy Setup with account.js
 
-The bot now uses a config.json file for configuration. When you run the bot for the first time, it will create a default config.json file that you can edit.
+The bot now uses a account.js file for credentials. 
 
-1. Run the bot once to generate the default config file:
-```
-node index.js
-```
-
-2. Edit the generated `accounts.js` file with your credentials:
+1. Edit the generated `accounts.js` file with your credentials:
 ```javascript
 export const accounts = [
   { username: "email1", password: "pass1" },
@@ -56,8 +51,13 @@ export const accounts = [
 ];
 ```
 
-3. Replace `username` and `password` with your Stork Oracle account credentials.
+2. Replace `username` and `password` with your Stork Oracle account credentials.
 just add new line if you wanna run many accounts
+
+3. Run the bot :
+```
+node index.js
+```
 
 ### Optional: Proxy Configuration
 
@@ -72,11 +72,11 @@ To use proxy servers for distribution of requests:
 
 Start the bot with:
 ```
-node stork-bot.js
+node index.js
 ```
 
 The bot will:
-1. Authenticate using your credentials from config.json
+1. Authenticate using your credentials from account.js
 2. Fetch signed price data at regular intervals
 3. Validate each data point
 4. Submit validation results to Stork Oracle
