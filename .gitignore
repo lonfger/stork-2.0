@@ -2,3 +2,7 @@ node_modules
 dist
 package-lock.json
 tokens.json
+config.json
+proxy-mappings.json
+proxies.txt
+tokens
